@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<!----------------------------------------------
+<!-------------------------------------------------------------------------------------------
+  canvas_circle.html
 
-html5_canvas_pattern_animation.html
-
-Animates a pattern drawing using html5 canvas.
-This snippet could be used as an example for creating
-the classic snake game.
+  Animates half a circle being drawn line by line by calculating and drawing each radius line.
+  Makes use of the JS setInterval/clearInterval functions for animation.
  
-Author:
-Ramin Rakhamimov
-ramin32 at gmail dot com
-http://raminrakhamimov.com
-
---------------------------------------------- -->
+  Author:
+  Ramin Rakhamimov
+  ramin32 at gmail dot com
+  http://raminrakhamimov.com
+--------------------------------------------------------------------------------------------->
 
 <html lang="en">
     <head>
@@ -27,14 +24,15 @@ http://raminrakhamimov.com
 
         <script type="application/javascript">
 
-            function computeX(theta, r, j, k){ return r * Math.cos(theta) + j; }
-            function computeY(theta, r, j, k){ return r * Math.sin(theta) + k; }
+            function computeX (theta, radius, centerX) { return radius * Math.cos(theta) + centerX; }
+            function computeY (theta, radius, centerY) { return radius * Math.sin(theta) + centerY; }
 
-            function drawCirclePoint(context, theta, r, j, k)
+            function drawRadius (context, theta, radius, centerX, centerY)
             {
-                var x = computeX(theta, r, j, k);
-                var y = computeY(theta, -r, j, k);
-
+                var x = computeX(theta, radius, centerX);
+                var y = computeY(theta, -radius, centerY);
+ 			
+                context.moveTo(centerX, centerY); 
                 context.lineTo(x, y);
                 context.stroke();
             }
@@ -47,44 +45,30 @@ http://raminrakhamimov.com
                     var context = canvas.getContext('2d');
                     if (context) {
                         context.lineWidth = 1;
-
+ 					                  context.strokeStyle = "#369";
 
                         var centerX = canvas.width / 2;
                         var centerY = 0;
-                        var r = canvas.width / 3;
+                        var radius = canvas.width / 3;
 
 
                         var theta = Math.PI;
                         var increment = .01;
+                        var intervalDelay = 10;
+						
+					                  	context.beginPath();
+						
                         intervalHandle = setInterval(function() {
-                            if (theta >= 2 * Math.PI)
+                            if (theta >= (2 * Math.PI))
                             {
-                                increment *= -1;
-                                context.closePath();
-                                context.beginPath();
-                            }
-                            if (theta < Math.PI)
-                            {
-                                increment *= -1;
-                                context.closePath();
-                                context.beginPath();
-                            }
-
-
-                            context.beginPath();
-                            context.strokeStyle = "#fff";
-                            context.moveTo(centerX, centerY); 
-                            drawCirclePoint(context, theta, r-increment , centerX, centerY);
-                            context.closePath();
-
-                            context.beginPath();
-                            context.strokeStyle = "#369";
-                            context.moveTo(centerX, centerY); 
-                            drawCirclePoint(context, theta, r , centerX, centerY);
-                            context.closePath();
-
+                                window.clearInterval(intervalHandle);
+							                        	context.closePath();
+                            }                         
+                            
+					                     		drawRadius(context, theta, radius, centerX, centerY);
+							
                             theta += increment;
-                        }, 10);
+                        }, intervalDelay);
                     }
                 }
             }

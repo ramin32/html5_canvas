@@ -62,10 +62,10 @@
                             if (theta >= (2 * Math.PI))
                             {
                                 window.clearInterval(intervalHandle);
-							                        	context.closePath();
+				context.closePath();
                             }                         
                             
-					                     		drawRadius(context, theta, radius, centerX, centerY);
+			    drawRadius(context, theta, radius, centerX, centerY);
 							
                             theta += increment;
                         }, intervalDelay);

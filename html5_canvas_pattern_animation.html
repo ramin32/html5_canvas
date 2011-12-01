@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!----------------------------------------------
+
+html5_canvas_pattern_animation.html
+
+Animates a pattern drawing using html5 canvas.
+This snippet could be used as an example for creating
+the classic snake game.
+ 
+Author:
+Ramin Rakhamimov
+ramin32 at gmail dot com
+http://raminrakhamimov.com
+
+------------------------------------------------>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <title>Swinging Rope</title>
+
+        <style type="text/css">
+            canvas { border: 2px solid #ddedcc; }
+        </style>
+
+        <script type="application/javascript">
+            window.onload = function() 
+            {
+                var canvas = document.getElementById('rope-canvas');
+
+                if (canvas && canvas.getContext) {
+                    var context = canvas.getContext('2d');
+                    if (context) {
+                        context.lineWidth = 4;
+
+                        function animate(context, x, y, xInc, yInc) 
+                        {
+                            context.strokeStyle = "#369";
+
+                            context.beginPath();
+
+                            context.moveTo(x, y);
+                            x = x + xInc;
+                            y = y + yInc;
+                            context.lineTo(x, y);
+
+                            context.stroke();
+                            context.closePath();
+
+                            if (x > canvas.width || x < 0)
+                            {
+                                xInc *= -1;
+                            }
+                            if (y > canvas.height || y < 0)
+                            {
+                                yInc *= -1;
+                            }
+                            window.setTimeout(function(){animate(context, x, y, xInc, yInc);}, 5);
+                        }
+
+                        animate(context, canvas.width/2, 0, 1, 1);
+
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <canvas id="rope-canvas" height="300px" width="500px"></canvas>  
+    </body>
+</html>
